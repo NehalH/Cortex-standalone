@@ -59,53 +59,59 @@ class _CameraPageState extends State<CameraPage> {
         setState(() {});
       });
     } on CameraException catch (e) {
-      debugPrint("camera error $e");
+      debugPrint("CAMERA ERROR: $e");
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
         body: SafeArea(
       child: Stack(children: [
         (_cameraController.value.isInitialized)
-            ? CameraPreview(_cameraController)
+            ? Positioned.fill(child: CameraPreview(_cameraController))
             : Container(
-                color: Colors.black,
+                color: Colors.black87,
                 child: const Center(child: CircularProgressIndicator())),
         Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.20,
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                  color: Colors.black),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                color: Colors.black54,
+              ),
               child:
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Expanded(
-                    child: IconButton(
-                  padding: EdgeInsets.zero,
-                  iconSize: 30,
-                  icon: Icon(
-                      _isRearCameraSelected
-                          ? CupertinoIcons.switch_camera
-                          : CupertinoIcons.switch_camera_solid,
-                      color: Colors.white),
-                  onPressed: () {
-                    setState(
-                        () => _isRearCameraSelected = !_isRearCameraSelected);
-                    initCamera(widget.cameras![_isRearCameraSelected ? 0 : 1]);
-                  },
-                )),
-                Expanded(
-                    child: IconButton(
-                  onPressed: takePicture,
-                  iconSize: 50,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  icon: const Icon(Icons.circle, color: Colors.white),
-                )),
-                const Spacer(),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center, children: [
+                      Expanded(
+                          child: IconButton(
+                        padding: EdgeInsets.zero,
+                        iconSize: 30,
+                        icon: Icon(
+                          _isRearCameraSelected
+                              ? CupertinoIcons.switch_camera
+                              : CupertinoIcons.switch_camera_solid,
+                          color: Colors.white,
+                          size: size.width * 0.08,
+                        ),
+                        onPressed: () {
+                          setState(
+                              () => _isRearCameraSelected = !_isRearCameraSelected);
+                          initCamera(widget.cameras![_isRearCameraSelected ? 0 : 1]);
+                        },
+                      )),
+                      Expanded(
+                          child: IconButton(
+                        onPressed: takePicture,
+                        iconSize: 50,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        icon: Icon(Icons.circle,
+                            color: Colors.white, size: size.width * 0.15),
+                      )),
+                      const Spacer(),
               ]),
             )),
       ]),
