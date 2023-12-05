@@ -25,9 +25,9 @@ class CortexButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          primary: bgColor, // Change the color as needed
+          primary: bgColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(size.width *0.03), // Adjust the radius for rounded corners
+            borderRadius: BorderRadius.circular(size.width *0.03),
           ),
         ),
         child: Text(

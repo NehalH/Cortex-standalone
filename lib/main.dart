@@ -1,4 +1,4 @@
-import 'package:cortex/screens/home_page.dart';
+import 'package:cortex/app/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
