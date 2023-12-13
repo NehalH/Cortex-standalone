@@ -1,5 +1,4 @@
 import 'package:camera/camera.dart';
-import 'package:cortex/app/core/rupee_classifier.dart';
 import 'package:cortex/app/widgets/cortex_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -14,13 +13,6 @@ class PreviewPage extends StatefulWidget {
 
 class _PreviewPageState extends State<PreviewPage> {
   late Future<String> inferResult;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize the inferResult Future when the widget is created
-    inferResult = RupeeClassifier.infer(widget.picture);
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,4 @@
 import 'package:camera/camera.dart';
-import 'package:cortex/app/core/rupee_classifier.dart';
 import 'package:cortex/app/screens/camera_page.dart';
 import 'package:flutter/material.dart';
 
@@ -11,12 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  @override
-  void initState() {
-    super.initState();
-    RupeeClassifier.loadModel();
-  }
 
   @override
   Widget build(BuildContext context) {
