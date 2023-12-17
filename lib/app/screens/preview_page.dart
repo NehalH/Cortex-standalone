@@ -1,5 +1,5 @@
 import 'package:camera/camera.dart';
-import 'package:cortex/app/widgets/cortex_button.dart';
+import 'package:cortex/app/core/widgets/cortex_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
