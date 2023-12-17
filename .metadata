@@ -21,9 +21,6 @@ migration:
     - platform: ios
       create_revision: 6c4930c4ac86fb286f30e31d0ec8bffbcbb9953e
       base_revision: 6c4930c4ac86fb286f30e31d0ec8bffbcbb9953e
-    - platform: windows
-      create_revision: 6c4930c4ac86fb286f30e31d0ec8bffbcbb9953e
-      base_revision: 6c4930c4ac86fb286f30e31d0ec8bffbcbb9953e
 
   # User provided section
 

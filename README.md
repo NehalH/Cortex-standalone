@@ -1,6 +1,6 @@
 # cortex
 
-A new Flutter project.
+Cortex for A-eye
 
 ## Getting Started
 
