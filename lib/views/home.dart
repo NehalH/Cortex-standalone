@@ -46,28 +46,6 @@ class _HomeState extends State<Home> {
     Tflite.close();
   }
 
-  // classifyImage(File image) async {
-  //
-  //   setState(() {
-  //     _isProcessing = true;
-  //     _status = 'Processing';
-  //   });
-  //
-  //   //this function runs the model on the image
-  //   var output = await Tflite.runModelOnImage(
-  //     path: image.path,
-  //     numResults: 5,
-  //     threshold: 0.5,
-  //     imageMean: 225.0,
-  //     imageStd: 225.0,
-  //   );
-  //   setState(() {
-  //     _output = output!;
-  //     _isWaitingForInput = false;
-  //     _status = 'Idle';
-  //   });
-  // }
-
   loadModel() async {
     //this function loads our model
     await Tflite.loadModel(
@@ -92,6 +70,18 @@ class _HomeState extends State<Home> {
     );
     if (image == null) return null;
 
+    runThroughModel(image);
+  }
+
+  pickGalleryImage() async {
+    // this function to grab the image from the gallery
+    var image = await picker.getImage(source: ImageSource.gallery);
+    if (image == null) return null;
+
+    runThroughModel(image);
+  }
+
+  runThroughModel(var image) async{
     setState(() {
       _image = image.path;
       _status = 'Preprocessing...';
@@ -106,28 +96,6 @@ class _HomeState extends State<Home> {
       _status = 'Idle';
     });
   }
-
-  pickGalleryImage() async {
-    // this function to grab the image from the gallery
-    var image = await picker.getImage(source: ImageSource.gallery);
-    if (image == null) return null;
-
-    setState(() {
-      _image = image.path;
-      _status = 'Preprocessing...';
-      _isProcessing = true;
-    });
-
-    // var result = classifyImage(File(_image));
-    var result = await _interpreter.processImage(_image); // await here
-
-    setState(() {
-      _output = result!;
-      _isWaitingForInput = false;
-      _status = 'Idle';
-    });
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +126,7 @@ class _HomeState extends State<Home> {
                             borderRadius: BorderRadius.circular(30),
                             child: Image.file(
                               File(_image),
-                              fit: BoxFit.fitWidth,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
