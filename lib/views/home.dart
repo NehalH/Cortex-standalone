@@ -101,7 +101,12 @@ class _HomeState extends State<Home> {
     var result = await _interpreter.processImage(_image);
 
     setState(() {
-      _output = result;
+      if(result == [] || result == ''){
+        _output = "Could not identify the object.";
+      }
+      else{
+        _output = result;
+      }
       _isWaitingForInput = false;
       _status = 'Idle';
     });
