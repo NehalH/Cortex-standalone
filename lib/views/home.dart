@@ -169,21 +169,24 @@ class _HomeState extends State<Home> {
                             textAlign: TextAlign.right,
                           ),
                         ),
-                        SizedBox(width: width *0.02,),
-                        CupertinoSwitch(
-                          trackColor: Colors.amber,
-                          activeColor: Colors.blue,
-                          value: regressionType == RegressionType.ocr,
-                          onChanged: (value) {
-                            setState(() {
-                              if(_output != "Processing..."){
-                                _output = "Processing...";
-                                regressionType = value ? RegressionType.ocr : RegressionType.currencyClassification;
-                                changeInterpreter();
-                                runThroughModel();
-                              }
-                            });
-                          },
+                        SizedBox(width: width *0.01,),
+                        Transform.scale(
+                          scale: 0.9,
+                          child: CupertinoSwitch(
+                            trackColor: Colors.amber,
+                            activeColor: Colors.blue,
+                            value: regressionType == RegressionType.ocr,
+                            onChanged: (value) {
+                              setState(() {
+                                if(_output != "Processing..."){
+                                  _output = "Processing...";
+                                  regressionType = value ? RegressionType.ocr : RegressionType.currencyClassification;
+                                  changeInterpreter();
+                                  runThroughModel();
+                                }
+                              });
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -208,15 +211,19 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        const Divider(
-                          height: 25,
-                          thickness: 1,
+                        SizedBox(height: width *0.06,),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(width *0.02),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: width *0.1, vertical: width *0.05),
+                          child: Center(
+                            child: DisplayOutput(regressionType: regressionType, output: _output,),
+                          ),
                         ),
-                        DisplayOutput(regressionType: regressionType, output: _output,),
-                        const Divider(
-                          height: 25,
-                          thickness: 1,
-                        ),
+                        SizedBox(height: width *0.06,),
                       ],
                     ),
               ),

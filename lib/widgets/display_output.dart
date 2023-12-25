@@ -14,6 +14,7 @@ class DisplayOutput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double fontSize =  width *0.04;
 
     if(output is List){
       // result for currencyClassification
@@ -24,12 +25,12 @@ class DisplayOutput extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Expanded(
+                Expanded(
                   child: Text(
                     'Class : ',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.w400,
                     ),
                     textAlign: TextAlign.right,
@@ -39,9 +40,9 @@ class DisplayOutput extends StatelessWidget {
                 Expanded(
                   child: Text(
                     '₹ ${output?[0]['label']}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -51,12 +52,12 @@ class DisplayOutput extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Expanded(
+                Expanded(
                   child: Text(
                     'Confidence : ',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.w400,
                     ),
                     textAlign: TextAlign.right,
@@ -66,9 +67,9 @@ class DisplayOutput extends StatelessWidget {
                 Expanded(
                   child: Text(
                     '${(output?[0]['confidence'] * 100).toStringAsFixed(2)}%',
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: fontSize,
                         fontWeight: FontWeight.w400),
                   ),
                 ),
@@ -79,14 +80,14 @@ class DisplayOutput extends StatelessWidget {
       }
       // result for OCR
       else {
-        return Container(
+        return SizedBox(
           height: width *0.5,
           child: SingleChildScrollView(
             child: Text(
               '${output[0]}',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: fontSize,
                 fontWeight: FontWeight.w400,
               ),
               textAlign: TextAlign.left,
@@ -101,7 +102,7 @@ class DisplayOutput extends StatelessWidget {
         '$output',
         style: TextStyle(
           color: Colors.white,
-          fontSize: 18,
+          fontSize: fontSize,
           fontWeight: FontWeight.w400,
         ),
         textAlign: TextAlign.left,

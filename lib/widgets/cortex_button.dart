@@ -18,7 +18,7 @@ class CortexFlatButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: MediaQuery.of(context).size.width - 200,
+        width: MediaQuery.of(context).size.width *0.8,
         alignment: Alignment.center,
         padding:
         EdgeInsets.symmetric(horizontal: width *0.1, vertical: width *0.04),
@@ -30,6 +30,7 @@ class CortexFlatButton extends StatelessWidget {
           style: TextStyle(
             color: Colors.white,
             fontSize: width *0.04,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
