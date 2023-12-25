@@ -9,6 +9,7 @@ import 'package:cortex/widgets/loading_status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tflite/flutter_tflite.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Home extends StatefulWidget {
@@ -118,53 +119,78 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: Container(
         color: AppColors.cortexPrimaryBg,
-        padding: EdgeInsets.symmetric(horizontal: width *0.06, vertical: width *0.06),
+        padding: EdgeInsets.symmetric(horizontal: width *0.04, vertical: width *0.04),
         child: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.all(width *0.14),
+          padding: EdgeInsets.symmetric(vertical: width *0.04, horizontal: width *0.03),
           decoration: BoxDecoration(
             color: AppColors.cortexSecondaryBg,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(width *0.02),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: width *0.01, horizontal: width *0.02),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.black26,
-                    ),
-                    child: Text(
-                      regressionType == RegressionType.ocr
-                          ?'Text Identification'
-                          :'Currency Classification',
-                      style: TextStyle(
-                        fontSize: width *0.035,
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.cortexFg,
+                  borderRadius: BorderRadius.circular(width *0.02),
+                ),
+                padding: EdgeInsets.symmetric(vertical: width *0.02, horizontal: width *0.02),
+                child: Row(
+                  children: [
+                    Text(
+                      'CORTEX',
+                      style: GoogleFonts.sourceCodePro(
                         color: Colors.white,
+                        fontSize: width *0.06,
+                        fontWeight: FontWeight.w800,
                       ),
-                      textAlign: TextAlign.right,
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  SizedBox(width: width *0.02,),
-                  CupertinoSwitch(
-                    trackColor: Colors.amber,
-                    activeColor: Colors.blue,
-                    value: regressionType == RegressionType.ocr,
-                    onChanged: (value) {
-                      setState(() {
-                        _output = "Processing . . . ";
-                        regressionType = value ? RegressionType.ocr : RegressionType.currencyClassification;
-                        changeInterpreter();
-                        runThroughModel();
-                      });
-                    },
-                  ),
-                ],
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: width *0.01, horizontal: width *0.02),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.black26,
+                          ),
+                          child: Text(
+                            regressionType == RegressionType.ocr
+                                ?'Text Identification'
+                                :'Currency Classification',
+                            style: TextStyle(
+                              fontSize: width *0.035,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        SizedBox(width: width *0.02,),
+                        CupertinoSwitch(
+                          trackColor: Colors.amber,
+                          activeColor: Colors.blue,
+                          value: regressionType == RegressionType.ocr,
+                          onChanged: (value) {
+                            setState(() {
+                              if(_output != "Processing..."){
+                                _output = "Processing...";
+                                regressionType = value ? RegressionType.ocr : RegressionType.currencyClassification;
+                                changeInterpreter();
+                                runThroughModel();
+                              }
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
+              const Spacer(),
               SizedBox(height: width *0.05,),
               Center(
                 child: _isWaitingForInput == true
@@ -209,6 +235,7 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+              const Spacer(),
             ],
           ),
         ),

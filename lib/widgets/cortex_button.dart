@@ -1,3 +1,4 @@
+import 'package:cortex/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class CortexFlatButton extends StatelessWidget {
@@ -22,7 +23,7 @@ class CortexFlatButton extends StatelessWidget {
         padding:
         EdgeInsets.symmetric(horizontal: width *0.1, vertical: width *0.04),
         decoration: BoxDecoration(
-            color: Colors.blueGrey[600],
+            color: AppColors.cortexFg,
             borderRadius: BorderRadius.circular(8)),
         child: Text(
           label,
