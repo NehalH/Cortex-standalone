@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
   bool _isLoadingModels = true;
   String _status = '';
   late String _image;
-  late List _output;
+  late dynamic _output;
   late Interpreter _interpreter;
   late RegressionType regressionType;
   final picker = ImagePicker();
@@ -127,22 +127,31 @@ class _HomeState extends State<Home> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    regressionType == RegressionType.ocr
-                        ?'Text Identification'
-                        :'Currency Classification',
-                    style: TextStyle(
-                      fontSize: width *0.035,
-                      color: Colors.white,
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: width *0.01, horizontal: width *0.02),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black26,
                     ),
-                    textAlign: TextAlign.right,
+                    child: Text(
+                      regressionType == RegressionType.ocr
+                          ?'Text Identification'
+                          :'Currency Classification',
+                      style: TextStyle(
+                        fontSize: width *0.035,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.right,
+                    ),
                   ),
                   SizedBox(width: width *0.02,),
                   CupertinoSwitch(
+                    trackColor: Colors.amber,
+                    activeColor: Colors.blue,
                     value: regressionType == RegressionType.ocr,
                     onChanged: (value) {
                       setState(() {
-                        _output = ["Processing . . . "];
+                        _output = "Processing . . . ";
                         regressionType = value ? RegressionType.ocr : RegressionType.currencyClassification;
                         changeInterpreter();
                         runThroughModel();
