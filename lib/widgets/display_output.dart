@@ -13,7 +13,7 @@ class DisplayOutput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    double width = MediaQuery.of(context).size.width;
     // result for currencyClassification
     if(regressionType == RegressionType.currencyClassification) {
       return Column(
@@ -78,14 +78,19 @@ class DisplayOutput extends StatelessWidget {
 
     // result for OCR
     else {
-      return Text(
-        '$output',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
+      return Container(
+        height: width *0.5,
+        child: SingleChildScrollView(
+          child: Text(
+            '${output[0]}',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+            ),
+            textAlign: TextAlign.left,
+          ),
         ),
-        textAlign: TextAlign.right,
       );
     }
   }

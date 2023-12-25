@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:cortex/constants/constants.dart';
 import 'package:cortex/interpreter/currencyClassifier/currency_classifier.dart';
 import 'package:cortex/interpreter/interface.dart';
+import 'package:cortex/interpreter/textIdentifier/tesseract_text_recognizer.dart';
 import 'package:cortex/widgets/cortex_button.dart';
 import 'package:cortex/widgets/display_output.dart';
 import 'package:cortex/widgets/loading_status.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tflite/flutter_tflite.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,12 +22,11 @@ class _HomeState extends State<Home> {
   bool _isWaitingForInput = true;
   bool _isLoadingModels = true;
   String _status = '';
-  bool _isProcessing = false;
   late String _image;
   late List _output;
-  RegressionType regressionType = RegressionType.currencyClassification;
-  final picker = ImagePicker(); //allows us to pick image from gallery or camera
-  final Interpreter _interpreter = CurrencyClassifier();
+  late Interpreter _interpreter;
+  late RegressionType regressionType;
+  final picker = ImagePicker();
 
   @override
   void initState() {
@@ -33,6 +34,10 @@ class _HomeState extends State<Home> {
     setState(() {
       _isLoadingModels = true;
       _status = 'Loading the Models . . .';
+
+      // set default interpreter as Currency classifier
+      regressionType = RegressionType.currencyClassification;
+      _interpreter = CurrencyClassifier();
     });
     loadModel().then((value) {
       setState(() {});
@@ -47,7 +52,6 @@ class _HomeState extends State<Home> {
   }
 
   loadModel() async {
-    //this function loads our model
     await Tflite.loadModel(
         model: 'assets/models/currency_classifier_model/rupee_classifier_quant.tflite',
         labels: 'assets/models/currency_classifier_model/labels.txt',
@@ -60,6 +64,12 @@ class _HomeState extends State<Home> {
     });
   }
 
+  changeInterpreter() {
+    regressionType == RegressionType.ocr
+      ? _interpreter = TesseractTextRecognizer()
+      : _interpreter = CurrencyClassifier();
+  }
+
   pickImage() async {
     //this function to grab the image from camera
     var image = await picker.getImage(
@@ -69,29 +79,29 @@ class _HomeState extends State<Home> {
       maxWidth: 224,
     );
     if (image == null) return null;
+    setState(() {
+      _image = image.path;
+    });
 
-    runThroughModel(image);
+    runThroughModel();
   }
 
   pickGalleryImage() async {
     // this function to grab the image from the gallery
     var image = await picker.getImage(source: ImageSource.gallery);
     if (image == null) return null;
-
-    runThroughModel(image);
-  }
-
-  runThroughModel(var image) async{
     setState(() {
       _image = image.path;
-      _status = 'Preprocessing...';
-      _isProcessing = true;
     });
+    runThroughModel();
+  }
+
+  runThroughModel() async{
 
     var result = await _interpreter.processImage(_image);
 
     setState(() {
-      _output = result!;
+      _output = result;
       _isWaitingForInput = false;
       _status = 'Idle';
     });
@@ -106,7 +116,7 @@ class _HomeState extends State<Home> {
         padding: EdgeInsets.symmetric(horizontal: width *0.06, vertical: width *0.06),
         child: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.all(width *0.06),
+          padding: EdgeInsets.all(width *0.14),
           decoration: BoxDecoration(
             color: AppColors.cortexSecondaryBg,
             borderRadius: BorderRadius.circular(14),
@@ -114,6 +124,34 @@ class _HomeState extends State<Home> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    regressionType == RegressionType.ocr
+                        ?'Text Identification'
+                        :'Currency Classification',
+                    style: TextStyle(
+                      fontSize: width *0.035,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  SizedBox(width: width *0.02,),
+                  CupertinoSwitch(
+                    value: regressionType == RegressionType.ocr,
+                    onChanged: (value) {
+                      setState(() {
+                        _output = ["Processing . . . "];
+                        regressionType = value ? RegressionType.ocr : RegressionType.currencyClassification;
+                        changeInterpreter();
+                        runThroughModel();
+                      });
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: width *0.05,),
               Center(
                 child: _isWaitingForInput == true
                     ? LoadingStatus(label: _status, isBusy: _isLoadingModels,)
@@ -155,10 +193,6 @@ class _HomeState extends State<Home> {
                       label: 'Pick From Gallery',
                       onTap: pickGalleryImage,
                   ),
-                  SizedBox(
-                    height: width *0.08,
-                  ),
-
                 ],
               ),
             ],
