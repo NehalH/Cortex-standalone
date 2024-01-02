@@ -3,6 +3,7 @@ import 'package:cortex/constants/constants.dart';
 import 'package:cortex/interpreter/currencyClassifier/currency_classifier.dart';
 import 'package:cortex/interpreter/interface.dart';
 import 'package:cortex/interpreter/textIdentifier/tesseract_text_recognizer.dart';
+import 'package:cortex/tts/tts.dart';
 import 'package:cortex/widgets/cortex_button.dart';
 import 'package:cortex/widgets/display_output.dart';
 import 'package:cortex/widgets/loading_status.dart';
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> {
   bool _isWaitingForInput = true;
   bool _isLoadingModels = true;
   String _status = '';
-  late String? _image = null;
+  late String? _image;
   late dynamic _output = '';
   late Interpreter _interpreter;
   late RegressionType regressionType;
@@ -33,6 +34,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     setState(() {
+      _image = null;
       _isLoadingModels = true;
       _status = 'Loading the Models . . .';
 
@@ -43,6 +45,7 @@ class _HomeState extends State<Home> {
     loadModel().then((value) {
       setState(() {});
     });
+    TextToSpeech.init();
   }
 
   @override
@@ -111,6 +114,8 @@ class _HomeState extends State<Home> {
       _isWaitingForInput = false;
       _status = 'Idle';
     });
+
+    TextToSpeech.speak(result, regressionType);
   }
 
   @override

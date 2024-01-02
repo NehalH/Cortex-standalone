@@ -40,6 +40,7 @@ dependencies:
   flutter_tflite: ^1.0.1
   flutter_tesseract_ocr: ^0.4.23
   google_fonts: ^6.1.0
+  flutter_tts: ^3.8.5
 
 dev_dependencies:
   flutter_test:
