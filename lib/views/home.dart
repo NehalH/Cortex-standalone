@@ -23,8 +23,8 @@ class _HomeState extends State<Home> {
   bool _isWaitingForInput = true;
   bool _isLoadingModels = true;
   String _status = '';
-  late String _image;
-  late dynamic _output;
+  late String? _image = null;
+  late dynamic _output = '';
   late Interpreter _interpreter;
   late RegressionType regressionType;
   final picker = ImagePicker();
@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
 
   runThroughModel() async{
 
-    var result = await _interpreter.processImage(_image);
+    var result = await _interpreter.processImage(_image!);
 
     setState(() {
       if(result == [] || result == ''){
@@ -182,7 +182,12 @@ class _HomeState extends State<Home> {
                                   _output = "Processing...";
                                   regressionType = value ? RegressionType.ocr : RegressionType.currencyClassification;
                                   changeInterpreter();
-                                  runThroughModel();
+                                  if(_image != null) {
+                                    runThroughModel();
+                                  }
+                                  else {
+                                    _output = "";
+                                  }
                                 }
                               });
                             },
@@ -206,7 +211,7 @@ class _HomeState extends State<Home> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(30),
                             child: Image.file(
-                              File(_image),
+                              File(_image!),
                               fit: BoxFit.cover,
                             ),
                           ),
