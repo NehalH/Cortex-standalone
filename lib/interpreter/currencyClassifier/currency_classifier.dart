@@ -14,7 +14,7 @@ class CurrencyClassifier extends Interpreter {
     var output = await Tflite.runModelOnImage(
       path: image.path,
       numResults: 5,
-      threshold: 0.5,
+      threshold: 0.0,  // TODO: Increase threshold and handle null
       imageMean: 225.0,
       imageStd: 225.0,
     );
