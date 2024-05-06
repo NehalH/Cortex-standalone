@@ -15,7 +15,7 @@ Cortex (Standalone) is a mobile application developed using the flutter framewor
 ## Installation
 
 1. Clone the repository:
-  `git clone github.com/NehalH/orgAERO22`
+  `git clone github.com/NehalH/Cortex-standalone`
 
 2. Navigate to the project directory:
   `cd project-directory`
@@ -25,21 +25,4 @@ Cortex (Standalone) is a mobile application developed using the flutter framewor
 
 4. Run the application:
   `flutter run`
-  
-NOTE: The API key for the database has been removed from the `google-services.json` file for security reasons. Please configure with your own database.
-
-
-## Contributing
-
-If you'd like to contribute to this project, please follow these steps:
-
-1. Fork the repository.
-
-2. Create a new branch.
-
-3. Make your changes and commit them.
-
-4. Push your changes to your forked repository.
-
-5. Submit a pull request.
 
